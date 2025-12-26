@@ -41,6 +41,7 @@ public class Chatbot {
                     break;
                 case "budget":
                     CmdH.handleBudget(cmd.getArgs(), expenseList);
+                    break;
                 case "bye":
                     ui.dottedLines();
                     System.out.println(" ");

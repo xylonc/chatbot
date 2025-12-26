@@ -4,11 +4,12 @@ import java.time.YearMonth;
 import main.java.Ui;
 import main.java.Expenses.Expense;
 import main.java.MonthlyBudget.BudgetManager;
+import main.java.MonthlyBudget.MonthlyBudget;
 import main.java.Expenses.ExpenseList;
 
 public class CommandHandler {
     Ui ui = new Ui();
-    BudgetManager budgets;
+    BudgetManager budgets = new BudgetManager();
 
     public CommandHandler(){}
 
@@ -24,14 +25,19 @@ public class CommandHandler {
 
         Expense e = new Expense(desc, amount, month);
         expenses.addExpense(desc, amount , month , ui);
-        if(budgets == null){
-            return;
-        }
-        else if(budgets.getBudget(month) != null){
+        
+        if(budgets.getBudget(month) != null){
             budgets.registerExpense(e);
-        }
-        else{
-            System.out.println("Error with handleExpense");
+            MonthlyBudget monthBudget = budgets.getBudget(month);
+            if(monthBudget.isExceeded()){
+                ui.budgetExceeded(monthBudget.exceededValue());
+            }
+            else if(monthBudget.isNearLimit()){
+                ui.nearLimit();
+            }
+            else{
+                System.out.println("Error with budget checking");
+            }
         }
     }
 
@@ -45,6 +51,7 @@ public class CommandHandler {
         YearMonth month = YearMonth.parse(args[1]);
 
         budgets.setBudget(month, amount);
+        ui.showBudgetAdded(amount, month);
         
         if(!expenses.isEmpty()){
             for(int i =0; i < expenses.Size() ; i++){

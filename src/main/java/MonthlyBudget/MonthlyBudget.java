@@ -28,4 +28,8 @@ public class MonthlyBudget {
     public int remaining() {
         return limit - spent;
     }
+
+    public int exceededValue(){
+        return spent - limit;
+    }
 }

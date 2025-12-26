@@ -1,5 +1,6 @@
 package main.java;
 
+import java.time.YearMonth;
 import java.util.Scanner;
 
 public class Ui {
@@ -29,6 +30,18 @@ public class Ui {
 
     public void showAddedIncome(String description ,int value) {
         System.out.print("Added the income " + description + " +" + value +"\n");
+    }
+
+    public void showBudgetAdded(int value , YearMonth month){
+        System.out.println("Added the budget of " + value + " for the month of " + month);
+    }
+
+    public void budgetExceeded(int value){
+        System.out.println("GG bro your budget this month has exceeded by $" + value );
+    }
+
+    public void nearLimit(){
+        System.out.println("Careful you are reaching your budget for this month");
     }
 
     public void errorMessage(String errorMessage){
