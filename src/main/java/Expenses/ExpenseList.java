@@ -2,9 +2,11 @@ package main.java.Expenses;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.YearMonth;
 
 import main.java.Ui;
 import main.java.Exceptions.InvalidInputException;
+import main.java.Expenses.Expense;
 
 public class ExpenseList {
     private final ArrayList<Expense> expenses = new ArrayList<>();
@@ -28,8 +30,8 @@ public class ExpenseList {
         return expenses.get(id);
     }
 
-    public void addExpense(String description , int price,  Ui ui ){
-       Expense expense =new Expense(description, price);
+    public void addExpense(String description , int price, YearMonth month,  Ui ui ){
+       Expense expense =new Expense(description, price, month);
        expenses.add(expense);
        ui.showAddedExpense(description, price);
     }

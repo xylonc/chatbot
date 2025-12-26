@@ -2,13 +2,14 @@ package main.java.Income;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.YearMonth;
 import main.java.Ui;
 
-public class incomeList {
-    private final ArrayList<income> incomes = new ArrayList<>();
+public class IncomeList {
+    private final ArrayList<Income> incomes = new ArrayList<>();
 
-    public incomeList(){}
-    public incomeList(List<income> inputList){
+    public IncomeList(){}
+    public IncomeList(List<Income> inputList){
         if(inputList != null){
             incomes.addAll(inputList);
         }
@@ -22,12 +23,12 @@ public class incomeList {
         return incomes.size();
     }
 
-    public income get(int id){
+    public Income get(int id){
         return incomes.get(id);
     }
 
-    public void addIncome(String description , int price,  Ui ui ){
-       income income =new income(description, price);
+    public void addIncome(String description , int price,  YearMonth month, Ui ui ){
+       Income income =new Income(description, price, month);
        incomes.add(income);
        ui.showAddedIncome(description, price);
     }
