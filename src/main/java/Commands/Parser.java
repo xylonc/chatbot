@@ -10,7 +10,7 @@ public class Parser {
 
     public static Command parse(String input) throws InvalidInputException {
         String trimmed = input.trim();
-        String[] parts = trimmed.split("\\s+");
+        String[] parts = trimmed.split("\\s*--\\s*");
 
         String action = parts[0].toLowerCase();
         String[] args = Arrays.copyOfRange(parts, 1, parts.length);

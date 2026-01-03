@@ -7,6 +7,7 @@ import main.java.Ui;
 
 public class IncomeList {
     private final ArrayList<Income> incomes = new ArrayList<>();
+    private static int TotalIncome = 0;
 
     public IncomeList(){}
     public IncomeList(List<Income> inputList){
@@ -30,6 +31,7 @@ public class IncomeList {
     public void addIncome(String description , int price,  YearMonth month, Ui ui ){
        Income income =new Income(description, price, month);
        incomes.add(income);
+       TotalIncome += price;
        ui.showAddedIncome(description, price);
     }
 
@@ -44,5 +46,9 @@ public class IncomeList {
             System.out.println((i + 1) + ". " + incomes.get(i));
         }
         ui.dottedLines();
+    }
+
+    public int getTotalIncome(){
+        return TotalIncome;
     }
 }

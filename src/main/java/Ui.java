@@ -51,5 +51,9 @@ public class Ui {
     public void byeMessage(){
         System.out.println("See you again soon!\n");
     }
+
+    public void valueMessage(String message , int value){
+        System.out.println(message + value);
+    }
 }
     

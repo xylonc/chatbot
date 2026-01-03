@@ -4,16 +4,17 @@ import main.java.Exceptions.InvalidInputException;
 import main.java.Expenses.ExpenseList;
 import main.java.Income.Income;
 import main.java.Income.IncomeList;
+import main.java.MonthlyBudget.BudgetManager;
 import main.java.MonthlyBudget.MonthlyBudget;
 import main.java.Commands.*;
-//todo : add in setbudget ->but first do parser 
+ 
 public class Chatbot {
     public static void main(String[] args) throws Exception{
         Xylon.xylon();
         Ui ui = new Ui();
         ExpenseList expenseList = new ExpenseList();
         IncomeList incomeList = new IncomeList();
-        MonthlyBudget Budgets;
+        BudgetManager budgets = new BudgetManager();
         CommandHandler CmdH = new CommandHandler();
 
         while(true){
@@ -28,19 +29,22 @@ public class Chatbot {
             }
             switch(cmd.getAction()){
                 case "expense":
-                    CmdH.HandleExpense(cmd.getArgs(), expenseList);
+                    CmdH.HandleExpense(cmd.getArgs(), expenseList , budgets);
                     break;
-                case "liste":
+                case "list-expense":
                     expenseList.listExpense(ui);
                     break;
-                //case "income":
-                    //incomeList.addIncome(parsedCommand.args, parsedCommand.value, parsedCommand.month, ui);
-                    //break;
-                case "listi":
+                case "income":
+                    CmdH.handleIncome(cmd.getArgs(), incomeList , budgets);
+                    break;
+                case "list-income":
                     incomeList.listIncome(ui);
                     break;
                 case "budget":
-                    CmdH.handleBudget(cmd.getArgs(), expenseList);
+                    CmdH.handleBudget(cmd.getArgs(), expenseList , budgets);
+                    break;
+                case"list-total":
+                    CmdH.handleTotal(cmd.getArgs() ,incomeList , expenseList);
                     break;
                 case "bye":
                     ui.dottedLines();
