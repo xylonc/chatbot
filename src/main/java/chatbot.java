@@ -10,7 +10,12 @@ import main.java.Commands.*;
  
 public class Chatbot {
     public static void main(String[] args) throws Exception{
-        Xylon.xylon();
+        try{
+            Xylon.xylon();
+        } catch (Exception e){
+            System.out.println("Failed to start chatbot");
+            return;
+        }
         Ui ui = new Ui();
         ExpenseList expenseList = new ExpenseList();
         IncomeList incomeList = new IncomeList();
@@ -22,37 +27,41 @@ public class Chatbot {
             Command cmd;
             try{
                 cmd = Parser.parse(input);
+                
+                switch(cmd.getAction()){
+                    case "expense":
+                        CmdH.HandleExpense(cmd.getArgs(), expenseList , budgets);
+                        break;
+                    case "list-expense":
+                        expenseList.listExpense(ui);
+                        break;
+                    case "income":
+                        CmdH.handleIncome(cmd.getArgs(), incomeList , budgets);
+                        break;
+                    case "list-income":
+                        incomeList.listIncome(ui);
+                        break;
+                    case "budget":
+                        CmdH.handleBudget(cmd.getArgs(), expenseList , budgets);
+                        break;
+                    case"list-total":
+                        CmdH.handleTotal(cmd.getArgs() ,incomeList , expenseList);
+                        break;
+                    case "bye":
+                        ui.dottedLines();
+                        System.out.println(" ");
+                        ui.byeMessage();
+                        ui.dottedLines();
+                        return;
+                    default:
+                        throw new InvalidInputException("wot , I dont understand that command");
+                }
+            } catch (InvalidInputException e){
+                ui.errorMessage(e.getMessage());
+            } catch (Exception e){
+                ui.errorMessage("Unexpected error occured");
             }
-            catch (InvalidInputException e){
-                ui.errorMessage("wot , I dont understand that command");
-                continue;
-            }
-            switch(cmd.getAction()){
-                case "expense":
-                    CmdH.HandleExpense(cmd.getArgs(), expenseList , budgets);
-                    break;
-                case "list-expense":
-                    expenseList.listExpense(ui);
-                    break;
-                case "income":
-                    CmdH.handleIncome(cmd.getArgs(), incomeList , budgets);
-                    break;
-                case "list-income":
-                    incomeList.listIncome(ui);
-                    break;
-                case "budget":
-                    CmdH.handleBudget(cmd.getArgs(), expenseList , budgets);
-                    break;
-                case"list-total":
-                    CmdH.handleTotal(cmd.getArgs() ,incomeList , expenseList);
-                    break;
-                case "bye":
-                    ui.dottedLines();
-                    System.out.println(" ");
-                    ui.byeMessage();
-                    ui.dottedLines();
-                    return;
-            }
+
         }
     }
 }

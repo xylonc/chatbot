@@ -1,7 +1,11 @@
 package main.java.Commands;
 
+import java.sql.Date;
 import java.time.YearMonth;
+import java.time.format.DateTimeParseException;
+
 import main.java.Ui;
+import main.java.Exceptions.InvalidInputException;
 import main.java.Expenses.Expense;
 import main.java.MonthlyBudget.BudgetManager;
 import main.java.MonthlyBudget.MonthlyBudget;
@@ -14,16 +18,24 @@ public class CommandHandler {
 
     public CommandHandler(){}
 
-    public void HandleExpense(String[] args , ExpenseList expenses , BudgetManager budgets){
+    public void HandleExpense(String[] args , ExpenseList expenses , BudgetManager budgets) throws InvalidInputException{
         if (args.length < 3) {
-        ui.errorMessage("Usage: expense --<desc> --<amount> --<yyyy-mm>");
-        return;
+            throw new InvalidInputException("Usage: expense --<desc> --<amount> --<yyyy-mm>");
         }
 
         String desc = args[0];
-        int amount = Integer.parseInt(args[1]);
-        YearMonth month = YearMonth.parse(args[2]);
-
+        int amount;
+        try{
+            amount = Integer.parseInt(args[1]);
+        } catch (NumberFormatException e){
+            throw new InvalidInputException("Amount must be a number",e);
+        }
+        YearMonth month;
+        try{
+            month = YearMonth.parse(args[2]);
+        } catch (DateTimeParseException e){
+            throw new InvalidInputException("Month must be <yyyy-mm>",e);
+        }
         Expense e = new Expense(desc, amount, month);
         expenses.addExpense(desc, amount , month , ui);
         
@@ -42,14 +54,22 @@ public class CommandHandler {
         }
     }
 
-    public void handleBudget(String[] args , ExpenseList expenses , BudgetManager budgets){
+    public void handleBudget(String[] args , ExpenseList expenses , BudgetManager budgets) throws InvalidInputException{
         if (args.length < 2) {
-        ui.errorMessage("Usage: budget --<amount> --<yyyy-mm>");
-        return;
+        throw new InvalidInputException("Usage: budget --<amount> --<yyyy-mm>");
         }
-
-        int amount = Integer.parseInt(args[0]);
-        YearMonth month = YearMonth.parse(args[1]);
+        int amount;
+        try{
+            amount = Integer.parseInt(args[0]);
+        } catch (NumberFormatException e){
+            throw new InvalidInputException("Budget must be a valid amount" , e);
+        }
+        YearMonth month;
+        try{
+            month = YearMonth.parse(args[1]);
+        } catch (DateTimeParseException e){
+            throw new InvalidInputException("Month must be yyyy-mm", e);
+        }
 
         budgets.setBudget(month, amount);
         ui.showBudgetAdded(amount, month);
@@ -70,15 +90,24 @@ public class CommandHandler {
     }
 
 
-    public void handleIncome(String[] args , IncomeList incomeList , BudgetManager budgets){
+    public void handleIncome(String[] args , IncomeList incomeList , BudgetManager budgets) throws InvalidInputException{
         if(args.length<3){
-            ui.errorMessage("Usage: expense --<desc> --<amount> --<yyyy-mm>");
-            return;
+            throw new InvalidInputException("Usage: expense --<desc> --<amount> --<yyyy-mm>");
         }
 
         String desc = args[0];
-        int amount = Integer.parseInt(args[1]);
-        YearMonth month = YearMonth.parse(args[2]);
+        int amount;
+        try{
+            amount = Integer.parseInt(args[1]);
+        } catch(NumberFormatException e){
+            throw new InvalidInputException("Amount must be a number", e);
+        }
+        YearMonth month;
+        try{
+            month = YearMonth.parse(args[2]);
+        } catch(DateTimeParseException e){
+            throw new InvalidInputException("Month must be <yyyy-mm>", e);
+        }
 
         Income income = new Income(desc , amount , month);
         incomeList.addIncome(desc, amount, month, ui);
@@ -88,13 +117,17 @@ public class CommandHandler {
         }
     }
 
-    public void handleTotal(String[] args , IncomeList incomeList , ExpenseList expenseList){
+    public void handleTotal(String[] args , IncomeList incomeList , ExpenseList expenseList) throws InvalidInputException{
         if(args.length < 1){
-            ui.errorMessage("Usage: list-total --<yyyy-mm>");
+            throw new InvalidInputException("Usage: list-total --<yyyy-mm>");
         }
 
-        YearMonth month = YearMonth.parse(args[0]);
-        
+        YearMonth month;
+        try{
+            month = YearMonth.parse(args[0]);
+        } catch(DateTimeParseException e){
+            throw new InvalidInputException("Month must be <yyyy-mm>",e);
+        }
         int totalIncome = 0;
         for(int i = 0; i < incomeList.Size(); i++){
             Income income = incomeList.get(i);
