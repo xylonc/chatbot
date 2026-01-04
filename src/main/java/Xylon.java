@@ -3,12 +3,12 @@ package main.java;
 public class Xylon {
 
     public static void xylon() throws Exception{
-        String logo = //change to X later 
-                " __     ___  ____ \n"
-                        + " \\ \\   / / |/ ___|\n"
-                        + "  \\ \\ / /| ' /    \n"
-                        + "   \\ V / | . \\___ \n"
-                        + "    \\_/  |_|| ___|  \n";
+        String logo =
+        "X   X\n" +
+        " X X \n" +
+        "  X  \n" +
+        " X X \n" +
+        "X   X\n";
 
         System.out.println("Hello from\n" + logo);
         System.out.println("-".repeat(30));
