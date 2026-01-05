@@ -48,7 +48,8 @@ public class Chatbot {
                         CmdH.handleTotal(cmd.getArgs() ,incomeList , expenseList);
                         break;
                     case EXPORT:
-                        CmdH.
+                        CmdH.handleExport(cmd.getArgs(), expenseList, incomeList, budgets);
+                        break;
                     case BYE:
                         ui.dottedLines();
                         System.out.println(" ");

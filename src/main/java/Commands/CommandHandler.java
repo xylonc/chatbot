@@ -1,6 +1,5 @@
 package main.java.Commands;
 
-import java.sql.Date;
 import java.time.YearMonth;
 import java.time.format.DateTimeParseException;
 
@@ -13,10 +12,8 @@ import main.java.MonthlyBudget.MonthlyBudget;
 import main.java.Expenses.ExpenseList;
 import main.java.Income.IncomeList;
 import main.java.Income.Income;
+import main.java.Storage.Export;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
 
 public class CommandHandler {
     Ui ui = new Ui();
@@ -156,34 +153,8 @@ public class CommandHandler {
     }
 
     public void handleExport(String[] args, ExpenseList expenses, IncomeList incomes , BudgetManager budgets) throws ChatBotexception{
-        String fileName = resolveExportFileName(args);
-
-        String content = buildExportText(expenses, incomes);
-
-        writeToFile(content, fileName);
-
-        ui.showMessage("Successfully exported to: " + fileName
-        );
+        Export export = new Export();
+        export.execute(args, expenses, incomes);
     }
 
-    private String resolveExportFileName(String[] args) throws InvalidInputException {
-    if (args.length == 0) {
-        return "chat-export.txt"; // default
-    }
-
-    if (args.length > 1) {
-        throw new InvalidInputException("Usage: export OR export --<filename>");
-    }
-
-    String name = args[0].trim();
-    if (name.isEmpty()) {
-        throw new InvalidInputException("Filename cannot be empty. Example: export --data.txt");
-    }
-
-    if (!name.toLowerCase().endsWith(".txt")) {
-        name += ".txt";
-    }
-
-    return name;
-}
 }
