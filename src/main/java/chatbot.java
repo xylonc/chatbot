@@ -28,26 +28,28 @@ public class Chatbot {
             try{
                 cmd = Parser.parse(input);
                 
-                switch(cmd.getAction()){
-                    case "expense":
+                switch(cmd.getType()){
+                    case EXPENSE:
                         CmdH.HandleExpense(cmd.getArgs(), expenseList , budgets);
                         break;
-                    case "list-expense":
+                    case LIST_EXPENSE:
                         expenseList.listExpense(ui);
                         break;
-                    case "income":
+                    case INCOME:
                         CmdH.handleIncome(cmd.getArgs(), incomeList , budgets);
                         break;
-                    case "list-income":
+                    case LIST_INCOME:
                         incomeList.listIncome(ui);
                         break;
-                    case "budget":
+                    case BUDGET:
                         CmdH.handleBudget(cmd.getArgs(), expenseList , budgets);
                         break;
-                    case"list-total":
+                    case LIST_TOTAL:
                         CmdH.handleTotal(cmd.getArgs() ,incomeList , expenseList);
                         break;
-                    case "bye":
+                    case EXPORT:
+                        CmdH.
+                    case BYE:
                         ui.dottedLines();
                         System.out.println(" ");
                         ui.byeMessage();

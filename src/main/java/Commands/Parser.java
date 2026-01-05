@@ -16,6 +16,11 @@ public class Parser {
         String action = parts[0].toLowerCase();
         String[] args = Arrays.copyOfRange(parts, 1, parts.length);
 
-        return new Command(action, args);
+        CommandType type = CommandType.fromString(action);
+        if(type == null){
+            throw new InvalidInputException("uh oh I do not know this command: " + action);
+        }
+
+        return new Command(type, args);
     }
 }
