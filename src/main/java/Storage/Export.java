@@ -48,7 +48,7 @@ public class Export {
         return sb.toString();
     }
 
-     public void exportToFile(String content, String fileName) throws ChatBotexception {
+    public void exportToFile(String content, String fileName) throws ChatBotexception {
         try {
             Path path = Paths.get(fileName);
 
@@ -70,9 +70,9 @@ public class Export {
         }
     }
 
-     private String resolveFileName(String[] args) throws InvalidInputException {
+    private String resolveFileName(String[] args) throws InvalidInputException {
         if (args == null || args.length == 0) {
-            return "chat-export.txt";
+            return Paths.get("data", "chat-export.txt").toString();
         }
 
         if (args.length > 1) {
@@ -88,6 +88,6 @@ public class Export {
             name += ".txt";
         }
 
-        return name;
+        return Paths.get("data", name).toString();
     }
 }
